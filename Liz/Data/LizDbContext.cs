@@ -12,7 +12,7 @@ namespace Liz.Data
         DbSet<ProdutoPedido> ProdutosPedido { get; set; }
         DbSet<Status> Status { get; set; }
         DbSet<Telefone> Telefones { get; set; }
-        DbSet<TpUnidade> TpUnidades { get; set; }
+        DbSet<TpUnidade> TpUnidade { get; set; }
 
         public LizDbContext(DbContextOptions options) : base(options)
         {
@@ -28,7 +28,7 @@ namespace Liz.Data
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdCliente);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.Nome)
@@ -46,11 +46,12 @@ namespace Liz.Data
                     .IsRequired();
 
                 entity
-                    .Property(o => o.Sexo)
-                    .IsRequired();
+                    .HasIndex(o => o.Cpf)
+                    .IsUnique();
 
                 entity
-                    .Property(o => o.Email);
+                    .Property(o => o.Sexo)
+                    .IsRequired();
 
                 entity
                     .Property(o => o.DtCadastro)
@@ -61,7 +62,7 @@ namespace Liz.Data
             modelBuilder.Entity<Endereco>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdEndereco);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.Cep)
@@ -76,6 +77,10 @@ namespace Liz.Data
                 entity
                     .Property(o => o.Numero)
                     .IsRequired();
+
+                entity
+                    .Property(o => o.Complemento)
+                    .HasMaxLength(50);
 
                 entity
                     .Property(o => o.Bairro)
@@ -94,7 +99,7 @@ namespace Liz.Data
             modelBuilder.Entity<Pedido>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdPedido);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.DtPedido)
@@ -110,7 +115,7 @@ namespace Liz.Data
             modelBuilder.Entity<Produto>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdProduto);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.Descricao)
@@ -126,7 +131,7 @@ namespace Liz.Data
             modelBuilder.Entity<Status>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdStatus);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.Descricao)
@@ -137,7 +142,7 @@ namespace Liz.Data
             modelBuilder.Entity<Telefone>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdTelefone);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.Ddd)
@@ -153,7 +158,7 @@ namespace Liz.Data
             modelBuilder.Entity<TpUnidade>(entity =>
             {
                 entity
-                    .HasKey(o => o.IdTpUnidade);
+                    .HasKey(o => o.Id);
 
                 entity
                     .Property(o => o.Abreviatura)
@@ -167,17 +172,17 @@ namespace Liz.Data
             });
 
             modelBuilder.Entity<ProdutoPedido>()
-                .HasKey(o => new { o.PedidoId, o.ProdutoId });
-
-            modelBuilder.Entity<ProdutoPedido>()
-                .HasOne(o => o.Pedido)
-                .WithMany(o => o.ProdutoPedidos)
-                .HasForeignKey(o => o.PedidoId);
+                .HasKey(o => new { o.Id, o.ProdutoId });
 
             modelBuilder.Entity<ProdutoPedido>()
                 .HasOne(o => o.Produto)
                 .WithMany(o => o.ProdutoPedidos)
                 .HasForeignKey(o => o.ProdutoId);
+
+            modelBuilder.Entity<ProdutoPedido>()
+                .HasOne(o => o.Pedido)
+                .WithMany(o => o.ProdutoPedidos)
+                .HasForeignKey(o => o.Id);
         }
     }
 }

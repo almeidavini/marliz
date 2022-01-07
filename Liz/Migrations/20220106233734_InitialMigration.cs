@@ -11,7 +11,7 @@ namespace Liz.Migrations
                 name: "Clientes",
                 columns: table => new
                 {
-                    IdCliente = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(maxLength: 100, nullable: false),
                     Sobrenome = table.Column<string>(maxLength: 100, nullable: false),
@@ -22,45 +22,46 @@ namespace Liz.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clientes", x => x.IdCliente);
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Status",
                 columns: table => new
                 {
-                    IdStatus = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Status", x => x.IdStatus);
+                    table.PrimaryKey("PK_Status", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TpUnidades",
+                name: "TpUnidade",
                 columns: table => new
                 {
-                    IdTpUnidade = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Abreviatura = table.Column<string>(maxLength: 5, nullable: false),
                     Descricao = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TpUnidades", x => x.IdTpUnidade);
+                    table.PrimaryKey("PK_TpUnidade", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Enderecos",
                 columns: table => new
                 {
-                    IdEndereco = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cep = table.Column<string>(maxLength: 8, nullable: false),
                     Logradouro = table.Column<string>(maxLength: 200, nullable: false),
                     Numero = table.Column<string>(nullable: false),
+                    Complemento = table.Column<string>(maxLength: 50, nullable: true),
                     Bairro = table.Column<string>(nullable: false),
                     Cidade = table.Column<string>(nullable: false),
                     Uf = table.Column<string>(maxLength: 2, nullable: false),
@@ -68,12 +69,12 @@ namespace Liz.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Enderecos", x => x.IdEndereco);
+                    table.PrimaryKey("PK_Enderecos", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Enderecos_Clientes_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
-                        principalColumn: "IdCliente",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -81,7 +82,7 @@ namespace Liz.Migrations
                 name: "Telefones",
                 columns: table => new
                 {
-                    IdTelefone = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ddd = table.Column<string>(maxLength: 2, nullable: false),
                     Numero = table.Column<string>(maxLength: 9, nullable: false),
@@ -89,33 +90,12 @@ namespace Liz.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Telefones", x => x.IdTelefone);
+                    table.PrimaryKey("PK_Telefones", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Telefones_Clientes_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
-                        principalColumn: "IdCliente",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Produtos",
-                columns: table => new
-                {
-                    IdProduto = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(maxLength: 100, nullable: false),
-                    Valor = table.Column<double>(type: "float", nullable: false),
-                    TpUnidadeId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Produtos", x => x.IdProduto);
-                    table.ForeignKey(
-                        name: "FK_Produtos_TpUnidades_TpUnidadeId",
-                        column: x => x.TpUnidadeId,
-                        principalTable: "TpUnidades",
-                        principalColumn: "IdTpUnidade",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -123,34 +103,48 @@ namespace Liz.Migrations
                 name: "Pedidos",
                 columns: table => new
                 {
-                    IdPedido = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DtPedido = table.Column<DateTime>(type: "dateTime", nullable: false),
                     DtEntrega = table.Column<DateTime>(type: "dateTime", nullable: false),
-                    StatusId = table.Column<int>(nullable: false),
-                    ClienteIdCliente = table.Column<int>(nullable: true),
-                    ProdutoIdProduto = table.Column<int>(nullable: true)
+                    ClienteId = table.Column<int>(nullable: false),
+                    StatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pedidos", x => x.IdPedido);
+                    table.PrimaryKey("PK_Pedidos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pedidos_Clientes_ClienteIdCliente",
-                        column: x => x.ClienteIdCliente,
+                        name: "FK_Pedidos_Clientes_ClienteId",
+                        column: x => x.ClienteId,
                         principalTable: "Clientes",
-                        principalColumn: "IdCliente",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pedidos_Produtos_ProdutoIdProduto",
-                        column: x => x.ProdutoIdProduto,
-                        principalTable: "Produtos",
-                        principalColumn: "IdProduto",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Pedidos_Status_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Status",
-                        principalColumn: "IdStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produtos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(maxLength: 100, nullable: false),
+                    Valor = table.Column<double>(type: "float", nullable: false),
+                    TpUnidadeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produtos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Produtos_TpUnidade_TpUnidadeId",
+                        column: x => x.TpUnidadeId,
+                        principalTable: "TpUnidade",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -158,26 +152,32 @@ namespace Liz.Migrations
                 name: "ProdutosPedido",
                 columns: table => new
                 {
-                    PedidoId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     ProdutoId = table.Column<int>(nullable: false),
                     Quantidade = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProdutosPedido", x => new { x.PedidoId, x.ProdutoId });
+                    table.PrimaryKey("PK_ProdutosPedido", x => new { x.Id, x.ProdutoId });
                     table.ForeignKey(
-                        name: "FK_ProdutosPedido_Pedidos_PedidoId",
-                        column: x => x.PedidoId,
+                        name: "FK_ProdutosPedido_Pedidos_Id",
+                        column: x => x.Id,
                         principalTable: "Pedidos",
-                        principalColumn: "IdPedido",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProdutosPedido_Produtos_ProdutoId",
                         column: x => x.ProdutoId,
                         principalTable: "Produtos",
-                        principalColumn: "IdProduto",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_Cpf",
+                table: "Clientes",
+                column: "Cpf",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enderecos_ClienteId",
@@ -185,14 +185,9 @@ namespace Liz.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pedidos_ClienteIdCliente",
+                name: "IX_Pedidos_ClienteId",
                 table: "Pedidos",
-                column: "ClienteIdCliente");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pedidos_ProdutoIdProduto",
-                table: "Pedidos",
-                column: "ProdutoIdProduto");
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pedidos_StatusId",
@@ -230,16 +225,16 @@ namespace Liz.Migrations
                 name: "Pedidos");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Produtos");
 
             migrationBuilder.DropTable(
-                name: "Produtos");
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Status");
 
             migrationBuilder.DropTable(
-                name: "TpUnidades");
+                name: "TpUnidade");
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Liz.Migrations
 {
     [DbContext(typeof(LizDbContext))]
-    [Migration("20220106024444_InitialMigration")]
+    [Migration("20220106233734_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.Cliente", b =>
                 {
-                    b.Property<int>("IdCliente")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -53,14 +53,17 @@ namespace Liz.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.HasKey("IdCliente");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Cpf")
+                        .IsUnique();
 
                     b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("Liz.Models.Endereco", b =>
                 {
-                    b.Property<int>("IdEndereco")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -81,6 +84,10 @@ namespace Liz.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Complemento")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
                     b.Property<string>("Logradouro")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
@@ -95,7 +102,7 @@ namespace Liz.Migrations
                         .HasColumnType("nvarchar(2)")
                         .HasMaxLength(2);
 
-                    b.HasKey("IdEndereco");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
 
@@ -104,12 +111,12 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.Pedido", b =>
                 {
-                    b.Property<int>("IdPedido")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClienteIdCliente")
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DtEntrega")
@@ -118,17 +125,12 @@ namespace Liz.Migrations
                     b.Property<DateTime>("DtPedido")
                         .HasColumnType("dateTime");
 
-                    b.Property<int?>("ProdutoIdProduto")
-                        .HasColumnType("int");
-
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdPedido");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ClienteIdCliente");
-
-                    b.HasIndex("ProdutoIdProduto");
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("StatusId");
 
@@ -137,7 +139,7 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.Produto", b =>
                 {
-                    b.Property<int>("IdProduto")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -153,7 +155,7 @@ namespace Liz.Migrations
                     b.Property<double>("Valor")
                         .HasColumnType("float");
 
-                    b.HasKey("IdProduto");
+                    b.HasKey("Id");
 
                     b.HasIndex("TpUnidadeId");
 
@@ -162,7 +164,7 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.ProdutoPedido", b =>
                 {
-                    b.Property<int>("PedidoId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<int>("ProdutoId")
@@ -171,7 +173,7 @@ namespace Liz.Migrations
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
 
-                    b.HasKey("PedidoId", "ProdutoId");
+                    b.HasKey("Id", "ProdutoId");
 
                     b.HasIndex("ProdutoId");
 
@@ -180,7 +182,7 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.Status", b =>
                 {
-                    b.Property<int>("IdStatus")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -190,14 +192,14 @@ namespace Liz.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.HasKey("IdStatus");
+                    b.HasKey("Id");
 
                     b.ToTable("Status");
                 });
 
             modelBuilder.Entity("Liz.Models.Telefone", b =>
                 {
-                    b.Property<int>("IdTelefone")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -215,7 +217,7 @@ namespace Liz.Migrations
                         .HasColumnType("nvarchar(9)")
                         .HasMaxLength(9);
 
-                    b.HasKey("IdTelefone");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
 
@@ -224,7 +226,7 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.TpUnidade", b =>
                 {
-                    b.Property<int>("IdTpUnidade")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -239,9 +241,9 @@ namespace Liz.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.HasKey("IdTpUnidade");
+                    b.HasKey("Id");
 
-                    b.ToTable("TpUnidades");
+                    b.ToTable("TpUnidade");
                 });
 
             modelBuilder.Entity("Liz.Models.Endereco", b =>
@@ -255,13 +257,11 @@ namespace Liz.Migrations
 
             modelBuilder.Entity("Liz.Models.Pedido", b =>
                 {
-                    b.HasOne("Liz.Models.Cliente", null)
+                    b.HasOne("Liz.Models.Cliente", "Cliente")
                         .WithMany("Pedidos")
-                        .HasForeignKey("ClienteIdCliente");
-
-                    b.HasOne("Liz.Models.Produto", null)
-                        .WithMany("Pedidos")
-                        .HasForeignKey("ProdutoIdProduto");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Liz.Models.Status", "Status")
                         .WithMany("Pedidos")
@@ -283,7 +283,7 @@ namespace Liz.Migrations
                 {
                     b.HasOne("Liz.Models.Pedido", "Pedido")
                         .WithMany("ProdutoPedidos")
-                        .HasForeignKey("PedidoId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+vptdsJAs4BbWb2BNMzPoHyXss2mWVFZYz4bpQPQSYQuT313V3RRRcv3xvMfmtD8ngjDJ5AmhHd+Rj9Z+re9BQ==",
+  "dgSpecHash": "feuDPveIWmUECeafyPAUTNsdELSwdbkZUt5XjiIUrNIdbyGMNUyNvdWLTOU3qmQorUHEFn8Q3n94PKN9A8avXg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vinic\\Desktop\\Liz\\Liz.csproj",
+  "projectFilePath": "C:\\Users\\vinic\\Desktop\\marliz\\Liz\\Liz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vinic\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\vinic\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

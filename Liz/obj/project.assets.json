@@ -4970,11 +4970,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vinic\\Desktop\\Liz\\Liz.csproj",
+      "projectUniqueName": "C:\\Users\\vinic\\Desktop\\marliz\\Liz\\Liz.csproj",
       "projectName": "Liz",
-      "projectPath": "C:\\Users\\vinic\\Desktop\\Liz\\Liz.csproj",
+      "projectPath": "C:\\Users\\vinic\\Desktop\\marliz\\Liz\\Liz.csproj",
       "packagesPath": "C:\\Users\\vinic\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vinic\\Desktop\\Liz\\obj\\",
+      "outputPath": "C:\\Users\\vinic\\Desktop\\marliz\\Liz\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vinic\\AppData\\Roaming\\NuGet\\NuGet.Config",
