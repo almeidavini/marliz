@@ -96,6 +96,11 @@ namespace Liz.Data
                     .IsRequired();
             });
 
+            // shadow property: Criando uma coluna na tabela que não está mapeada no modelo da classe;
+            // modelBuilder
+            //     .Entity<Endereco>()
+            //     .Property<int>("Id");
+
             modelBuilder.Entity<Pedido>(entity =>
             {
                 entity
